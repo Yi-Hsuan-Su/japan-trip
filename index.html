@@ -619,7 +619,7 @@ async function tablesToCards(root, queryHint){
       if (!cells.length) return;
       const nameCell = cells[0];
       const nameLink = nameCell.querySelector('a');
-      const nameText = (nameLink ? nameLink.textContent : nameCell.textContent).trim().replace(/^[\s\W]+|[\s\W]+$/g,'').trim();
+      const nameText = (nameLink ? nameLink.textContent : nameCell.textContent).trim();
       const nameHref = nameLink ? nameLink.getAttribute('href') : '';
       const links = [];
       cells.forEach(c => c.querySelectorAll('a').forEach(a => links.push({ text:a.textContent.trim(), href:a.getAttribute('href')||'' })));
