@@ -10,347 +10,251 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
 
 <style>
-/* ─────────── Tokens ─────────── */
 :root{
-  /* color: washi paper + sumi ink + shu vermillion */
-  --washi:        #FAF7F2;
-  --washi-deep:   #F2EBDD;
-  --paper:        #FFFFFF;
-  --ink:          #1A1A1A;
-  --ink-soft:     #3B3735;
-  --ink-mute:     #7A7269;
-  --line:         #E8DFD3;
-  --line-soft:    #F0E8DA;
-  --shu:          #9C2A2A;       /* 朱 vermillion */
-  --shu-deep:     #7A1F1F;
-  --kincha:       #C9A66B;       /* 金茶 gold-tea */
-  --matcha:       #6B7F4C;
-  /* callouts */
+  --washi:#FAF7F2; --washi-deep:#F2EBDD; --paper:#FFFFFF;
+  --ink:#1A1A1A; --ink-soft:#3B3735; --ink-mute:#7A7269;
+  --line:#E8DFD3; --line-soft:#F0E8DA;
+  --shu:#9C2A2A; --shu-deep:#7A1F1F;
+  --kincha:#C9A66B; --matcha:#6B7F4C;
   --info-fg:#2D5F8F; --info-bg:#EBF1F8; --info-bd:#C8DBEB;
   --warn-fg:#A06318; --warn-bg:#FBEFD9; --warn-bd:#EFD9A3;
   --ok-fg:#3D7A5C;   --ok-bg:#E5F0E8;   --ok-bd:#C1DCC9;
   --danger-fg:#9C2A2A;--danger-bg:#F5DEDE;--danger-bd:#E4B8B8;
-
-  --shadow-1: 0 1px 2px rgba(26,26,26,.04), 0 4px 12px rgba(26,26,26,.04);
-  --radius: 10px;
-  --radius-sm: 6px;
-  --serif: 'Noto Serif JP', 'Noto Serif TC', Georgia, serif;
-  --sans: 'Noto Sans TC', 'Hiragino Sans', 'PingFang TC', -apple-system, sans-serif;
-  --display: 'Playfair Display', 'Noto Serif JP', serif;
+  --shadow-1:0 1px 2px rgba(26,26,26,.04),0 4px 12px rgba(26,26,26,.04);
+  --shadow-2:0 4px 24px rgba(26,26,26,.08);
+  --radius:12px; --radius-sm:6px;
+  --serif:'Noto Serif JP','Noto Serif TC',Georgia,serif;
+  --sans:'Noto Sans TC','Hiragino Sans','PingFang TC',-apple-system,sans-serif;
+  --display:'Playfair Display','Noto Serif JP',serif;
 }
-
-/* ─────────── Reset ─────────── */
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:24px}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
-body{
-  margin:0; background:var(--washi); color:var(--ink);
-  font-family:var(--sans); font-size:16px; line-height:1.75;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+body{margin:0;background:var(--washi);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
+::selection{background:rgba(156,42,42,.15);color:var(--shu-deep)}
 
-/* ─────────── Hero ─────────── */
+/* ───── Top Nav ───── */
+nav.top{
+  position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+nav.top .row{
+  max-width:1200px;margin:0 auto;padding:14px 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+}
+nav.top .brand{
+  font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.06em;color:var(--ink);
+  display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer;
+}
+nav.top .brand .dot{
+  display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--shu);
+}
+nav.top .links{display:flex;gap:4px;flex-wrap:wrap}
+nav.top .links a{
+  font-size:14px;padding:8px 14px;color:var(--ink-soft);text-decoration:none;
+  border-radius:999px;cursor:pointer;transition:background .2s,color .2s;letter-spacing:.04em;
+}
+nav.top .links a:hover{background:var(--washi-deep);color:var(--shu)}
+nav.top .links a.active{background:var(--shu);color:#fff}
+nav.top .links a:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
+@media (max-width:760px){
+  nav.top .row{padding:10px 14px;flex-direction:column;align-items:flex-start;gap:8px}
+  nav.top .links{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  nav.top .links a{flex-shrink:0;font-size:13px;padding:6px 12px}
+}
+
+/* ───── Hero (full bleed) ───── */
 .hero{
-  position:relative; padding:72px 24px 56px; text-align:center;
-  background:
-    radial-gradient(ellipse at top, #FFFFFF 0%, transparent 70%),
-    var(--washi-deep);
-  border-bottom:1px solid var(--line);
-  overflow:hidden;
+  position:relative;min-height:88vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;color:#fff;overflow:hidden;
+  background-color:#1A1A1A;
 }
-.hero::before{
-  /* faint hinomaru disc, washi-style */
-  content:""; position:absolute; top:-80px; right:-40px;
-  width:240px; height:240px; border-radius:50%;
-  background:radial-gradient(circle, rgba(156,42,42,.10) 0%, rgba(156,42,42,0) 70%);
-  pointer-events:none;
+.hero .bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;
+  filter:brightness(.55) saturate(1.05);transform:scale(1.05);transition:opacity 1s ease;opacity:0}
+.hero .bg.loaded{opacity:1}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.55) 100%),
+             linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.5) 100%);
 }
+.hero .inner{position:relative;z-index:2;padding:24px;max-width:840px}
 .hero .eyebrow{
-  font-family:var(--display); font-style:italic; font-size:14px; letter-spacing:.18em;
-  color:var(--shu); margin:0 0 12px; text-transform:uppercase;
+  font-family:var(--display);font-style:italic;font-size:14px;letter-spacing:.28em;
+  color:#F2D5AB;text-transform:uppercase;margin:0 0 18px;opacity:.9
 }
-.hero h1.title{
-  font-family:var(--serif); font-weight:600; letter-spacing:.04em;
-  font-size:clamp(32px, 5vw, 52px); margin:0 0 8px; line-height:1.15;
-  color:var(--ink);
+.hero h1{
+  font-family:var(--serif);font-weight:600;letter-spacing:.06em;
+  font-size:clamp(40px,7vw,84px);margin:0 0 8px;line-height:1.05;
+  text-shadow:0 2px 20px rgba(0,0,0,.4);
 }
-.hero h1.title .jp{display:block; font-size:.6em; font-weight:500; letter-spacing:.3em; color:var(--ink-mute); margin-top:8px}
-.hero .dates{
-  font-family:var(--display); font-size:18px; color:var(--ink-soft); margin:14px 0 0;
-  letter-spacing:.06em;
+.hero h1 .jp{display:block;font-size:.36em;font-weight:500;letter-spacing:.4em;margin-top:14px;opacity:.85;color:#F4E6D0}
+.hero .rule{display:inline-block;width:80px;height:1px;background:#F2D5AB;margin:28px 0;opacity:.6}
+.hero .dates{font-family:var(--display);font-size:clamp(18px,2.4vw,24px);letter-spacing:.08em;opacity:.95}
+.hero .meta{display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:center;margin-top:24px;font-size:13px;opacity:.85}
+.hero .meta span{display:inline-flex;align-items:center;gap:8px;letter-spacing:.04em}
+.hero .meta span::before{content:"";width:5px;height:5px;border-radius:50%;background:#F2D5AB}
+.hero .scroll-hint{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;
+  color:#F4E6D0;opacity:.7;font-size:12px;letter-spacing:.25em;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
 }
-.hero .rule{
-  display:inline-block; width:60px; height:1px; background:var(--shu);
-  margin:18px 0;
-}
-.hero .meta{
-  display:flex; flex-wrap:wrap; gap:8px 16px; justify-content:center; font-size:13px;
-  color:var(--ink-soft); margin-top:8px;
-}
-.hero .meta span{display:inline-flex; align-items:center; gap:6px}
-.hero .meta span::before{
-  content:""; width:4px; height:4px; border-radius:50%; background:var(--kincha);
-}
+.hero .scroll-hint .arrow{width:1px;height:36px;background:#F4E6D0;animation:drop 2.2s ease-in-out infinite}
+@keyframes drop{0%,100%{transform:scaleY(.4) translateY(-12px);opacity:.2}50%{transform:scaleY(1) translateY(0);opacity:.9}}
 
-/* ─────────── Layout ─────────── */
-.shell{
-  max-width:1180px; margin:0 auto;
-  display:grid; grid-template-columns: 240px minmax(0,1fr);
-  gap:48px; padding:48px 24px;
+/* ───── Section Container ───── */
+section.page{padding:72px 24px 96px}
+section.page .wrap{max-width:1100px;margin:0 auto}
+section.page .head{text-align:center;margin-bottom:48px}
+section.page .head .kicker{
+  font-family:var(--display);font-style:italic;font-size:13px;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--shu);margin:0 0 8px
 }
-@media (max-width: 900px){
-  .shell{grid-template-columns:1fr; gap:24px; padding:24px 16px}
-  aside.toc{position:static!important; max-height:none; order:2}
-  main{order:1}
+section.page .head h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,40px);margin:0;letter-spacing:.04em;color:var(--ink)
 }
+section.page .head .desc{color:var(--ink-mute);margin-top:10px;font-size:14px}
+section.page .head .rule{display:inline-block;width:48px;height:1px;background:var(--shu);margin:18px 0 0}
 
-/* ─────────── TOC ─────────── */
-aside.toc{
-  position:sticky; top:24px; align-self:start;
-  max-height:calc(100vh - 48px); overflow-y:auto;
-  padding:20px 18px; background:var(--paper);
-  border:1px solid var(--line); border-radius:var(--radius);
-  box-shadow:var(--shadow-1);
-  font-size:13.5px;
+/* ───── Day Timeline (home) ───── */
+.timeline{display:grid;gap:32px}
+.day-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-1);transition:transform .3s ease, box-shadow .3s ease;
+  display:grid;grid-template-columns:minmax(0,1fr) 1.2fr;
 }
-aside.toc h3{
-  margin:0 0 14px; font-family:var(--display); font-style:italic;
-  color:var(--shu); font-size:12px; letter-spacing:.2em; text-transform:uppercase;
-  padding-bottom:10px; border-bottom:1px solid var(--line-soft);
-  font-weight:500;
-}
-aside.toc ol{list-style:none; padding:0; margin:0; counter-reset:toc}
-aside.toc li{counter-increment:toc; margin:2px 0}
-aside.toc a{
-  display:block; padding:6px 8px 6px 28px; position:relative;
-  color:var(--ink-soft); border-radius:var(--radius-sm);
-  text-decoration:none; line-height:1.4;
-  transition: background .2s ease, color .2s ease;
-  cursor:pointer;
-}
-aside.toc a::before{
-  content: counter(toc, decimal-leading-zero);
-  position:absolute; left:6px; top:6px;
-  font-family:var(--display); font-style:italic; font-size:11px;
-  color:var(--kincha); letter-spacing:.05em;
-}
-aside.toc a:hover{background:var(--washi); color:var(--shu)}
-aside.toc a:focus-visible{outline:2px solid var(--shu); outline-offset:2px}
-aside.toc a.active{background:var(--washi-deep); color:var(--shu); font-weight:500}
+.day-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+@media (max-width:780px){.day-card{grid-template-columns:1fr}}
 
-/* ─────────── Main / Article ─────────── */
-main{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-1);
-  padding:56px 64px; min-width:0;
+.day-card .gallery{
+  position:relative;min-height:260px;background:var(--washi-deep);
+  display:flex;flex-direction:column;
 }
-@media (max-width: 720px){ main{padding:32px 22px} }
+.day-card .gallery .main-img{
+  flex:1;min-height:260px;background-size:cover;background-position:center;
+  background-color:var(--washi-deep);
+}
+.day-card .gallery .thumbs{display:flex;gap:0;border-top:1px solid var(--line)}
+.day-card .gallery .thumbs .t{flex:1;height:60px;background-size:cover;background-position:center;background-color:var(--washi);border-right:1px solid var(--line)}
+.day-card .gallery .thumbs .t:last-child{border-right:none}
 
-main > *:first-child{margin-top:0}
-main p{margin:1em 0; color:var(--ink-soft)}
+.day-card .body{padding:28px 32px}
+@media (max-width:780px){.day-card .body{padding:22px 22px 26px}}
 
-/* drop cap on first paragraph after H1 */
-main h1 + p::first-letter{
-  font-family:var(--serif); font-weight:700; font-size:3.6em; float:left;
-  line-height:.9; padding:6px 12px 0 0; color:var(--shu);
+.day-card .day-tag{
+  font-family:var(--display);font-style:italic;color:var(--shu);font-size:13px;letter-spacing:.18em;text-transform:uppercase
 }
+.day-card .day-tag .num{font-size:36px;font-style:normal;font-weight:700;color:var(--ink);margin-right:8px;letter-spacing:.02em;vertical-align:-4px}
+.day-card .date{margin-top:2px;font-size:14px;color:var(--ink-mute);letter-spacing:.06em}
+.day-card h3{
+  font-family:var(--serif);font-weight:600;font-size:24px;margin:14px 0 8px;letter-spacing:.02em;color:var(--ink)
+}
+.day-card .tagline{color:var(--ink-soft);margin:0 0 16px;font-size:15px}
 
-/* Headings */
-main h1{
-  font-family:var(--serif); font-weight:600; font-size:32px;
-  margin:0 0 24px; padding-bottom:18px;
-  border-bottom:1px solid var(--line);
-  letter-spacing:.02em;
+.day-card .attractions{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.day-card .attractions .pill{
+  font-size:12.5px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;
+  color:var(--ink-soft);background:var(--washi);
 }
-main h2{
-  font-family:var(--serif); font-weight:600; font-size:24px;
-  margin:48px 0 18px; padding-left:18px; position:relative;
-  letter-spacing:.02em; line-height:1.35;
-  scroll-margin-top:24px;
-}
-main h2::before{
-  content:""; position:absolute; left:0; top:.35em; bottom:.35em;
-  width:3px; background:var(--shu); border-radius:2px;
-}
-main h3{
-  font-family:var(--serif); font-weight:500; font-size:18px;
-  margin:32px 0 12px; color:var(--shu-deep);
-  letter-spacing:.02em;
-}
-main h2 + p, main h3 + p{margin-top:.5em}
+.day-card .attractions .pill.star{border-color:var(--shu);color:var(--shu);background:rgba(156,42,42,.05)}
 
-/* Lists */
-main ul, main ol{padding-left:20px; margin:1em 0}
-main li{margin:6px 0; color:var(--ink-soft)}
-main ul li::marker{color:var(--kincha)}
-main ol li::marker{color:var(--shu); font-family:var(--display)}
+.day-card .meta-row{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px;margin-top:14px;font-size:13.5px;color:var(--ink-soft);
+  padding-top:14px;border-top:1px dashed var(--line)
+}
+.day-card .meta-row .item{display:flex;gap:8px;align-items:flex-start;min-width:0}
+.day-card .meta-row .item .label{color:var(--ink-mute);font-size:11px;letter-spacing:.12em;text-transform:uppercase;flex-shrink:0;min-width:42px;margin-top:3px}
+.day-card .meta-row .item .val{flex:1;min-width:0}
+.day-card .meta-row .item .val .hi{color:var(--shu);font-weight:500}
 
-/* Strong / em */
-main strong{color:var(--ink); font-weight:600}
-main em{color:var(--shu-deep)}
+/* ───── Subpage MD content ───── */
+.md{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:48px 56px;box-shadow:var(--shadow-1)}
+@media (max-width:720px){.md{padding:28px 22px}}
+.md > *:first-child{margin-top:0}
+.md p{margin:1em 0;color:var(--ink-soft)}
+.md h1{font-family:var(--serif);font-weight:600;font-size:28px;margin:0 0 18px;padding-bottom:14px;border-bottom:1px solid var(--line);letter-spacing:.02em}
+.md h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:40px 0 14px;padding-left:16px;position:relative;letter-spacing:.02em;scroll-margin-top:80px}
+.md h2::before{content:"";position:absolute;left:0;top:.35em;bottom:.35em;width:3px;background:var(--shu);border-radius:2px}
+.md h3{font-family:var(--serif);font-weight:500;font-size:17px;margin:28px 0 10px;color:var(--shu-deep);letter-spacing:.02em}
+.md ul,.md ol{padding-left:22px;margin:1em 0}
+.md li{margin:5px 0;color:var(--ink-soft)}
+.md ul li::marker{color:var(--kincha)}
+.md ol li::marker{color:var(--shu);font-family:var(--display)}
+.md strong{color:var(--ink);font-weight:600}
+.md em{color:var(--shu-deep)}
+.md a{color:var(--shu);text-decoration:none;background-image:linear-gradient(var(--shu),var(--shu));background-size:100% 1px;background-position:0 100%;background-repeat:no-repeat;transition:background-size .2s ease,color .2s ease;padding:0 1px;cursor:pointer}
+.md a:hover{color:var(--shu-deep);background-size:100% 2px}
+.md a:focus-visible{outline:2px solid var(--shu);outline-offset:2px;border-radius:2px}
+.md blockquote{margin:22px 0;padding:14px 20px;background:var(--washi);border-left:3px solid var(--kincha);border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:var(--ink-soft);font-style:italic;font-size:14.5px}
+.md blockquote p{margin:.3em 0}
+.md hr{border:none;height:1px;background:var(--line);margin:40px auto;max-width:80px;position:relative}
+.md hr::after{content:"❋";display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--paper);padding:0 12px;color:var(--kincha);font-size:14px}
+.md code{background:var(--washi);padding:2px 6px;border-radius:4px;font-size:.88em;color:var(--shu-deep);font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.md .table-wrap{overflow-x:auto;margin:16px 0;border-radius:var(--radius);border:1px solid var(--line)}
+.md table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--paper)}
+.md thead th{background:var(--washi-deep);font-family:var(--serif);font-weight:600;color:var(--ink);text-align:left;padding:10px 12px;border-bottom:2px solid var(--shu);letter-spacing:.02em;font-size:12.5px}
+.md tbody td{padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.md tbody tr:last-child td{border-bottom:none}
+.md tbody tr:nth-child(even){background:#FCFAF6}
+.md tbody tr:hover{background:var(--washi)}
+.md tbody td strong{color:var(--ink)}
 
-/* Links */
-main a{
-  color:var(--shu); text-decoration:none;
-  background-image: linear-gradient(var(--shu),var(--shu));
-  background-size: 100% 1px; background-position: 0 100%; background-repeat:no-repeat;
-  transition: background-size .2s ease, color .2s ease;
-  padding:0 1px; cursor:pointer;
-}
-main a:hover{color:var(--shu-deep); background-size:100% 2px}
-main a:focus-visible{outline:2px solid var(--shu); outline-offset:2px; border-radius:2px}
-
-/* Blockquote (used in md > blocks) */
-main blockquote{
-  margin:24px 0; padding:14px 20px;
-  background:var(--washi); border-left:3px solid var(--kincha);
-  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  color:var(--ink-soft); font-style:italic; font-size:15px;
-}
-main blockquote p{margin:.3em 0; color:var(--ink-soft)}
-
-/* HR */
-main hr{
-  border:none; height:1px; background:var(--line);
-  margin:48px auto; max-width:80px;
-  position:relative;
-}
-main hr::after{
-  content:"❋"; display:block; position:absolute; left:50%; top:50%;
-  transform:translate(-50%,-50%); background:var(--paper); padding:0 12px;
-  color:var(--kincha); font-size:14px;
-}
-
-/* Code */
-main code{
-  background:var(--washi); padding:2px 6px; border-radius:4px;
-  font-size:.88em; color:var(--shu-deep);
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-}
-main pre{
-  background:var(--washi); border:1px solid var(--line);
-  border-radius:var(--radius); padding:16px; overflow-x:auto;
-}
-main pre code{background:none; padding:0}
-
-/* Tables */
-.table-wrap{overflow-x:auto; margin:18px 0; border-radius:var(--radius); border:1px solid var(--line)}
-main table{
-  width:100%; border-collapse:collapse; font-size:14px;
-  background:var(--paper);
-}
-main thead th{
-  background:var(--washi-deep);
-  font-family:var(--serif); font-weight:600; color:var(--ink);
-  text-align:left; padding:12px 14px;
-  border-bottom:2px solid var(--shu); letter-spacing:.02em;
-  font-size:13px;
-}
-main tbody td{
-  padding:12px 14px; border-bottom:1px solid var(--line-soft);
-  vertical-align:top; color:var(--ink-soft);
-}
-main tbody tr:last-child td{border-bottom:none}
-main tbody tr:nth-child(even){background:#FCFAF6}
-main tbody tr:hover{background:var(--washi)}
-main tbody td strong{color:var(--ink)}
-main tbody td a{font-size:.95em}
-
-/* ─────────── Callouts ─────────── */
-.callout{
-  margin:22px 0; padding:16px 18px 16px 20px;
-  border-radius:var(--radius); border:1px solid;
-  display:grid; grid-template-columns:24px 1fr; gap:14px; align-items:flex-start;
-}
-.callout .ico{width:22px; height:22px; flex-shrink:0; margin-top:2px}
-.callout .body{min-width:0}
+/* ───── Callouts (reused in md) ───── */
+.callout{margin:20px 0;padding:14px 18px 14px 18px;border-radius:var(--radius);border:1px solid;display:grid;grid-template-columns:24px 1fr;gap:14px;align-items:flex-start}
+.callout .ico{width:22px;height:22px;flex-shrink:0;margin-top:2px}
 .callout .body > *:first-child{margin-top:0}
 .callout .body > *:last-child{margin-bottom:0}
-.callout p, .callout li{color:inherit}
-.callout strong{color:inherit; font-weight:700}
-.callout.info   {background:var(--info-bg);   border-color:var(--info-bd);   color:var(--info-fg)}
-.callout.warning{background:var(--warn-bg);   border-color:var(--warn-bd);   color:var(--warn-fg)}
-.callout.success{background:var(--ok-bg);     border-color:var(--ok-bd);     color:var(--ok-fg)}
-.callout.danger {background:var(--danger-bg); border-color:var(--danger-bd); color:var(--danger-fg)}
+.callout p,.callout li{color:inherit}
+.callout strong{color:inherit;font-weight:700}
+.callout.info{background:var(--info-bg);border-color:var(--info-bd);color:var(--info-fg)}
+.callout.warning{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-fg)}
+.callout.success{background:var(--ok-bg);border-color:var(--ok-bd);color:var(--ok-fg)}
+.callout.danger{background:var(--danger-bg);border-color:var(--danger-bd);color:var(--danger-fg)}
 
-/* ─────────── Footer ─────────── */
-footer.site{
-  text-align:center; color:var(--ink-mute); font-size:12px;
-  padding:24px 16px 48px; letter-spacing:.05em;
-}
-footer.site .seal{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:42px; height:42px; border:1.5px solid var(--shu);
-  color:var(--shu); border-radius:50%; margin-bottom:10px;
-  font-family:var(--serif); font-weight:600; font-size:16px;
-}
+/* ───── Footer ───── */
+footer.site{text-align:center;color:var(--ink-mute);font-size:12px;padding:32px 16px 56px;letter-spacing:.05em;border-top:1px solid var(--line);margin-top:48px}
+footer.site .seal{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border:1.5px solid var(--shu);color:var(--shu);border-radius:50%;margin-bottom:10px;font-family:var(--serif);font-weight:600;font-size:16px}
 
-/* ─────────── Loading ─────────── */
-.loading{
-  display:flex; flex-direction:column; align-items:center; gap:14px;
-  padding:80px 0; color:var(--ink-mute);
-}
-.loading .spin{
-  width:28px; height:28px; border:2px solid var(--line);
-  border-top-color:var(--shu); border-radius:50%;
-  animation:spin .8s linear infinite;
-}
+/* ───── Loading ───── */
+.loading{display:flex;flex-direction:column;align-items:center;gap:14px;padding:80px 0;color:var(--ink-mute)}
+.loading .spin{width:28px;height:28px;border:2px solid var(--line);border-top-color:var(--shu);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion: reduce){
-  .loading .spin{animation:none}
-}
+@media (prefers-reduced-motion:reduce){.loading .spin{animation:none}}
 
-/* selection */
-::selection{background:rgba(156,42,42,.15); color:var(--shu-deep)}
+/* fade-in for route changes */
+.route-view{animation:fadein .35s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<!-- ───────────────────── SVG sprite ───────────────────── -->
+<!-- SVG sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r=".5" fill="currentColor"/>
-  </symbol>
-  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
-  </symbol>
-  <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-  </symbol>
-  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
-  </symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r=".5" fill="currentColor"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></symbol>
 </svg>
 
-<!-- ───────────────────── Hero ───────────────────── -->
-<header class="hero">
-  <p class="eyebrow">— A 5-Day Travel Notebook —</p>
-  <h1 class="title">
-    京都 ・ 大阪
-    <span class="jp">KYOTO ・ OSAKA</span>
-  </h1>
-  <span class="rule" aria-hidden="true"></span>
-  <p class="dates">10.28 — 11.01 ・ 2026</p>
-  <div class="meta">
-    <span>JX820 / JX821</span>
-    <span>京都 URBAN ・ 大阪喜來登都</span>
-    <span>自費 NT$28,000 ／ 2 人</span>
+<!-- Top Nav -->
+<nav class="top" aria-label="主導覽">
+  <div class="row">
+    <a class="brand" href="#/" data-route="/"><span class="dot"></span>京都・大阪 Notebook</a>
+    <div class="links" id="nav-links">
+      <a href="#/" data-route="/">行程</a>
+      <a href="#/restaurants" data-route="/restaurants">餐廳</a>
+      <a href="#/booking" data-route="/booking">訂票</a>
+      <a href="#/transport" data-route="/transport">交通</a>
+      <a href="#/lodging" data-route="/lodging">住宿</a>
+      <a href="#/budget" data-route="/budget">預算</a>
+      <a href="#/tips" data-route="/tips">Tips</a>
+    </div>
   </div>
-</header>
+</nav>
 
-<!-- ───────────────────── Layout ───────────────────── -->
-<div class="shell">
-  <aside class="toc" aria-label="目錄">
-    <h3>Contents</h3>
-    <ol id="toc-list"><li><a>載入中…</a></li></ol>
-  </aside>
-  <main id="content">
-    <div class="loading"><div class="spin" aria-hidden="true"></div><div>展開行程中…</div></div>
-  </main>
-</div>
+<!-- View root -->
+<div id="view"></div>
 
 <footer class="site">
   <div class="seal">京</div>
@@ -358,99 +262,290 @@ footer.site .seal{
   <div style="opacity:.6;margin-top:4px">資料隨 trip.md 更新</div>
 </footer>
 
-<!-- ───────────────────── Logic ───────────────────── -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
 <script>
-const SVG_ICONS = {
-  info: '<svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>',
-  warning: '<svg class="ico" aria-hidden="true"><use href="#i-warn"/></svg>',
-  success: '<svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg>',
-  danger: '<svg class="ico" aria-hidden="true"><use href="#i-x"/></svg>'
+/* ─────────── Day data (主流程) ─────────── */
+const DAYS = [
+  {
+    n:1, date:'10/28（三）', title:'抵達 ・ 京都',
+    tagline:'落地 KIX，三十三間堂的千手觀音迎接，新京極點燈逛街，相撲火鍋暖身。',
+    heroWiki:'Sanjūsangen-dō',
+    attractions:[
+      { name:'三十三間堂', wiki:'Sanjūsangen-dō' },
+      { name:'新京極商店街', wiki:'Shinkyōgoku' },
+    ],
+    meal:{ 午:'機上簡餐', 晚:'相撲火鍋（含）' },
+    hotel:'京都 URBAN HOTEL',
+  },
+  {
+    n:2, date:'10/29（四）', title:'嵐山深度 ・ 京都自由日',
+    tagline:'重點日 — 嵯峨野小火車＋保津川遊船賞峽谷紅葉，渡月橋、竹林、天龍寺，溫泉日歸貸切，焼肉弘預約名店。',
+    heroWiki:'Arashiyama',
+    attractions:[
+      { name:'嵯峨野觀光小火車', wiki:'Sagano_Scenic_Railway' },
+      { name:'保津川遊船', wiki:'Hozugawa_River' },
+      { name:'渡月橋・竹林', wiki:'Togetsukyō_Bridge' },
+      { name:'天龍寺', wiki:'Tenryū-ji' },
+    ],
+    star:true,
+    meal:{ 午:'松籟庵 湯豆腐 ／ 廣川鰻魚 ／ 牛兵衛和牛涮涮', 晚:'★ 焼肉弘 京都和牛' },
+    activity:'★ 保津川遊船 + 嵐山溫泉花傳抄日歸貸切',
+    hotel:'京都 URBAN HOTEL',
+  },
+  {
+    n:3, date:'10/30（五）', title:'清水寺 ・ 移動大阪',
+    tagline:'東山清水寺＋勝尾寺達摩賞楓，午餐順正湯豆腐，傍晚進駐大阪喜來登。',
+    heroWiki:'Kiyomizu-dera',
+    attractions:[
+      { name:'清水寺', wiki:'Kiyomizu-dera' },
+      { name:'達摩 勝尾寺', wiki:'Katsuō-ji' },
+      { name:'道頓堀（夜逛）', wiki:'Dōtonbori' },
+    ],
+    meal:{ 午:'順正 湯豆腐會席（含）', 晚:'★ はり重 道頓堀 関西風壽喜燒 ／ 木曽路 上本町（免預約）' },
+    hotel:'大阪喜來登都飯店',
+  },
+  {
+    n:4, date:'10/31（六）', title:'環球影城 ・ 萬聖節',
+    tagline:'USJ 全日 — 任天堂、哈利波特、小小兵、Halloween Horror Night。快通 4 必買。',
+    heroWiki:'Universal_Studios_Japan',
+    attractions:[
+      { name:'環球影城 USJ', wiki:'Universal_Studios_Japan' },
+      { name:'道頓堀 宵夜', wiki:'Dōtonbori' },
+    ],
+    warn:true,
+    meal:{ 午:'園內', 晚:'道頓堀 串カツだるま ／ 金龍 ／ 一蘭' },
+    activity:'USJ 門票 + Express Pass 4',
+    hotel:'大阪喜來登都飯店',
+  },
+  {
+    n:5, date:'11/01（日）', title:'返程',
+    tagline:'JX821 12:20 早班機回 — 行李前一晚打包，預留 KIX 報到時間。',
+    heroWiki:'Kansai_International_Airport',
+    attractions:[
+      { name:'關西機場 KIX', wiki:'Kansai_International_Airport' },
+    ],
+    meal:{ 午:'機上簡餐' },
+    hotel:'— 返台 —',
+  },
+];
+
+const HERO_WIKI = 'Kiyomizu-dera';
+
+/* ─────────── Wikipedia image cache ─────────── */
+const imgCache = new Map();
+async function wikiImage(title){
+  if (imgCache.has(title)) return imgCache.get(title);
+  const langs = ['en','ja','zh'];
+  for (const lang of langs){
+    try{
+      const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+      const r = await fetch(url);
+      if (!r.ok) continue;
+      const j = await r.json();
+      const src = (j.originalimage && j.originalimage.source) || (j.thumbnail && j.thumbnail.source);
+      if (src){ imgCache.set(title, src); return src; }
+    }catch(e){ /* try next */ }
+  }
+  imgCache.set(title, null);
+  return null;
+}
+
+/* ─────────── trip.md cache + section split ─────────── */
+let _mdRaw = null;
+async function getMd(){
+  if (_mdRaw !== null) return _mdRaw;
+  const r = await fetch('trip.md?_='+Date.now());
+  if (!r.ok) throw new Error('無法讀取 trip.md');
+  _mdRaw = await r.text();
+  return _mdRaw;
+}
+
+const SECTIONS = {
+  restaurants: ['🍽 推薦餐廳','⭐ 米其林','🍲 壽喜燒','📋 米其林參考'],
+  booking: ['🎟 活動訂票'],
+  transport: ['🚃 交通'],
+  lodging: ['🏨 住宿周邊'],
+  budget: ['💰 自費預算','💴 預算總表'],
+  tips: ['⚠️ 備案','⚠ 備案'],
 };
 
-// pre-process ::: callouts → <div class="callout {type}"><svg/>...content...</div>
-function preprocess(md){
-  md = md.replace(/^\[TOC\]\s*$/m, '');
-  // greedy across multiline
-  md = md.replace(/:::(info|warning|success|danger)\s*\n([\s\S]*?):::/g, (_, type, body) => {
-    const inner = marked.parse(body.trim());
-    return `<div class="callout ${type}">${SVG_ICONS[type]||''}<div class="body">${inner}</div></div>`;
+function extractSections(md, keywords){
+  // Split by H2 (## )
+  const parts = md.split(/^##\s+/m);
+  // parts[0] = preamble, others start with heading text
+  const blocks = [];
+  for (let i=1;i<parts.length;i++){
+    const block = '## ' + parts[i];
+    const firstLine = block.split('\n')[0];
+    if (keywords.some(k => firstLine.includes(k.replace(/^[^一-龥\w]+/,'')) || firstLine.startsWith(k))){
+      blocks.push(block.trim());
+    }
+  }
+  return blocks.join('\n\n---\n\n');
+}
+
+/* ─────────── marked + ::: callouts ─────────── */
+marked.setOptions({ gfm:true, breaks:false });
+const ICONS = {
+  info:'<svg class="ico"><use href="#i-info"/></svg>',
+  warning:'<svg class="ico"><use href="#i-warn"/></svg>',
+  success:'<svg class="ico"><use href="#i-ok"/></svg>',
+  danger:'<svg class="ico"><use href="#i-x"/></svg>'
+};
+function preprocessCallouts(md){
+  md = md.replace(/^\[TOC\]\s*$/m,'');
+  return md.replace(/:::(info|warning|success|danger)\s*\n([\s\S]*?):::/g,(_,type,body)=>{
+    return `<div class="callout ${type}">${ICONS[type]}<div class="body">${marked.parse(body.trim())}</div></div>`;
   });
-  return md;
 }
-
-function slugify(text){
-  return text.toString().trim()
-    .replace(/[​-‍﻿]/g,'')
-    .replace(/[^\p{Letter}\p{Number}]+/gu,'-')
-    .replace(/^-+|-+$/g,'')
-    .toLowerCase().slice(0, 80) || 'section';
+function slugify(t){return t.toString().trim().replace(/[^\p{Letter}\p{Number}]+/gu,'-').replace(/^-+|-+$/g,'').toLowerCase().slice(0,80)||'s'}
+function renderMd(md){
+  // marked v4 renderer API: heading(text, level, raw)
+  const renderer = new marked.Renderer();
+  renderer.heading = (text, level) => `<h${level} id="${slugify(text)}">${text}</h${level}>`;
+  return marked.parse(preprocessCallouts(md), { renderer });
 }
-
-// wrap tables for horizontal scroll
 function wrapTables(root){
-  root.querySelectorAll('table').forEach(t => {
+  root.querySelectorAll('table').forEach(t=>{
     if (t.parentElement.classList.contains('table-wrap')) return;
-    const w = document.createElement('div'); w.className = 'table-wrap';
-    t.parentNode.insertBefore(w, t); w.appendChild(t);
+    const w=document.createElement('div'); w.className='table-wrap';
+    t.parentNode.insertBefore(w,t); w.appendChild(t);
   });
 }
 
-function buildTOC(root){
-  const tocList = document.getElementById('toc-list');
-  tocList.innerHTML = '';
-  const headings = root.querySelectorAll('h2');
-  if (!headings.length){ tocList.innerHTML = '<li><a>—</a></li>'; return; }
-  headings.forEach(h => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = '#' + h.id;
-    a.textContent = h.textContent.replace(/^\W+/, '').trim();
-    li.appendChild(a); tocList.appendChild(li);
+/* ─────────── Renderers ─────────── */
+function renderHero(){
+  return `
+  <section class="hero" id="hero">
+    <div class="bg" id="hero-bg"></div>
+    <div class="inner">
+      <p class="eyebrow">— A 5-Day Travel Notebook —</p>
+      <h1>京都・大阪<span class="jp">KYOTO・OSAKA</span></h1>
+      <span class="rule"></span>
+      <p class="dates">10.28 — 11.01 ・ 2026</p>
+      <div class="meta">
+        <span>JX820 / JX821</span>
+        <span>京都 URBAN ・ 大阪喜來登都</span>
+        <span>自費 NT$28,000 ／ 2 人</span>
+      </div>
+    </div>
+    <div class="scroll-hint"><span>SCROLL</span><span class="arrow"></span></div>
+  </section>`;
+}
+
+async function paintHeroBg(){
+  const el = document.getElementById('hero-bg');
+  if (!el) return;
+  const src = await wikiImage(HERO_WIKI);
+  if (src){ el.style.backgroundImage = `url(${src})`; el.classList.add('loaded'); }
+}
+
+function dayCardHtml(d){
+  const pills = d.attractions.map((a,i)=>`<span class="pill${i===0&&d.star?' star':''}" data-wiki="${a.wiki}">${a.name}</span>`).join('');
+  const meals = Object.entries(d.meal||{}).map(([k,v])=>`<div class="item"><span class="label">${k}</span><span class="val">${v}</span></div>`).join('');
+  const activity = d.activity ? `<div class="item"><span class="label">活動</span><span class="val"><span class="hi">${d.activity}</span></span></div>` : '';
+  const hotel = `<div class="item"><span class="label">住宿</span><span class="val">${d.hotel}</span></div>`;
+  return `
+    <article class="day-card" data-day="${d.n}">
+      <div class="gallery">
+        <div class="main-img" data-wiki="${d.heroWiki}"></div>
+        ${d.attractions.length>1 ? `<div class="thumbs">${d.attractions.slice(0,3).map(a=>`<div class="t" data-wiki="${a.wiki}"></div>`).join('')}</div>`:''}
+      </div>
+      <div class="body">
+        <div class="day-tag"><span class="num">${String(d.n).padStart(2,'0')}</span>Day ${d.n}</div>
+        <div class="date">${d.date}</div>
+        <h3>${d.title}</h3>
+        <p class="tagline">${d.tagline}</p>
+        <div class="attractions">${pills}</div>
+        <div class="meta-row">
+          ${meals}${activity}${hotel}
+        </div>
+      </div>
+    </article>`;
+}
+
+async function paintDayImages(){
+  const els = [...document.querySelectorAll('.day-card .main-img[data-wiki], .day-card .thumbs .t[data-wiki]')];
+  await Promise.all(els.map(async el=>{
+    const t = el.dataset.wiki;
+    if (!t) return;
+    const src = await wikiImage(t);
+    if (src) el.style.backgroundImage = `url(${src})`;
+  }));
+}
+
+function renderHome(){
+  const cards = DAYS.map(dayCardHtml).join('');
+  return `
+    ${renderHero()}
+    <section class="page route-view">
+      <div class="wrap">
+        <div class="head">
+          <p class="kicker">— Itinerary —</p>
+          <h2>逐日主流程</h2>
+          <div class="rule"></div>
+          <p class="desc">五天的節奏走法，餐廳訂位、交通票價、預算總表請走上方分頁。</p>
+        </div>
+        <div class="timeline">${cards}</div>
+      </div>
+    </section>`;
+}
+
+async function renderSubpage(keywords, title, kicker, desc){
+  const md = await getMd();
+  const content = extractSections(md, keywords);
+  if (!content){
+    return `<section class="page route-view"><div class="wrap"><div class="head"><p class="kicker">— ${kicker} —</p><h2>${title}</h2><div class="rule"></div></div><div class="md"><p>找不到對應內容。</p></div></div></section>`;
+  }
+  const html = renderMd(content);
+  return `
+    <section class="page route-view">
+      <div class="wrap">
+        <div class="head">
+          <p class="kicker">— ${kicker} —</p>
+          <h2>${title}</h2>
+          <div class="rule"></div>
+          ${desc?`<p class="desc">${desc}</p>`:''}
+        </div>
+        <div class="md" id="md-content">${html}</div>
+      </div>
+    </section>`;
+}
+
+/* ─────────── Router ─────────── */
+const ROUTES = {
+  '/':           { fn: ()=>Promise.resolve(renderHome()), title:'行程' },
+  '/restaurants':{ fn: ()=>renderSubpage(SECTIONS.restaurants,'餐廳清單','Restaurants','推薦餐廳、米其林進階、壽喜燒選項') },
+  '/booking':    { fn: ()=>renderSubpage(SECTIONS.booking,'活動訂票','Booking','Klook / KKday 連結') },
+  '/transport':  { fn: ()=>renderSubpage(SECTIONS.transport,'交通詳細','Transport','IC 卡、HARUKA、地鐵') },
+  '/lodging':    { fn: ()=>renderSubpage(SECTIONS.lodging,'住宿周邊','Lodging','京都 URBAN ／ 大阪喜來登都') },
+  '/budget':     { fn: ()=>renderSubpage(SECTIONS.budget,'預算明細','Budget','自費 ＋ 預算總表') },
+  '/tips':       { fn: ()=>renderSubpage(SECTIONS.tips,'備案 & Tips','Tips','天氣、訂位、季節、溫泉提醒') },
+};
+
+async function navigate(){
+  const hash = location.hash.replace(/^#/,'') || '/';
+  const route = ROUTES[hash] || ROUTES['/'];
+  document.querySelectorAll('nav.top .links a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.route === hash);
   });
-}
-
-// active section highlight on scroll
-function trackScroll(){
-  const links = [...document.querySelectorAll('aside.toc a')];
-  const headings = [...document.querySelectorAll('main h2')];
-  if (!headings.length) return;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const id = e.target.id;
-      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    });
-  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-  headings.forEach(h => io.observe(h));
-}
-
-async function load(){
+  const view = document.getElementById('view');
+  view.innerHTML = `<div class="loading"><div class="spin"></div><div>讀取中…</div></div>`;
   try{
-    const r = await fetch('trip.md?_=' + Date.now());
-    if (!r.ok) throw new Error('fetch ' + r.status);
-    let md = await r.text();
-    md = preprocess(md);
-
-    const renderer = new marked.Renderer();
-    renderer.heading = function(text, level){
-      const id = slugify(text);
-      return `<h${level} id="${id}">${text}</h${level}>`;
-    };
-    marked.setOptions({ gfm:true, breaks:false });
-
-    const html = marked.parse(md, { renderer });
-    const main = document.getElementById('content');
-    main.innerHTML = html;
-    wrapTables(main);
-    buildTOC(main);
-    trackScroll();
+    view.innerHTML = await route.fn();
+    if (hash === '/'){
+      paintHeroBg();
+      paintDayImages();
+    } else {
+      wrapTables(view);
+    }
+    window.scrollTo({top:0,behavior:'instant'});
   }catch(err){
-    document.getElementById('content').innerHTML =
-      `<div class="callout danger"><svg class="ico"><use href="#i-x"/></svg><div class="body"><strong>載入失敗</strong><p>${err.message}<br>請確認 <code>trip.md</code> 與 <code>index.html</code> 在同目錄。</p></div></div>`;
+    view.innerHTML = `<section class="page"><div class="wrap"><div class="callout danger"><svg class="ico"><use href="#i-x"/></svg><div class="body"><strong>載入失敗</strong><p>${err.message}</p></div></div></div></section>`;
   }
 }
-load();
+window.addEventListener('hashchange', navigate);
+navigate();
 </script>
 </body>
 </html>
