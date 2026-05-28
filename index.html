@@ -413,18 +413,16 @@ async function wikiImage(title){
   return null;
 }
 
-// Pexels (free key, no card) — best for travel/food aesthetics
-const PEXELS_KEY = 'WwQclMGpH9dDSSADwnY9FxACiOOUN9LX2xuRjBCzN9uy1azHynJmWzdV';
+// Pexels via Apps Script proxy (key server-side in Script Properties)
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbxWB3owHPCyHtPeZpE4O45X9Gvzl3HOuHKRz5Km_sl4SyHW37t5N2W81gtLkClNi68e/exec';
+const PROXY_TOKEN = 'ethan-sheet-9x7k2p';
 async function pexelsImage(query){
-  if (!PEXELS_KEY) return null;
   try{
-    const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=3&orientation=landscape`,{
-      headers:{ Authorization: PEXELS_KEY }
-    });
+    const url = `${PROXY_URL}?token=${PROXY_TOKEN}&action=pexels&q=${encodeURIComponent(query)}`;
+    const r = await fetch(url);
     if (!r.ok) return null;
     const j = await r.json();
-    const p = (j.photos || [])[0];
-    return p && p.src ? (p.src.large2x || p.src.large || p.src.medium) : null;
+    return (j && j.ok) ? j.src : null;
   }catch(e){ return null; }
 }
 
