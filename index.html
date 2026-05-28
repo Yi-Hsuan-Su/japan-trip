@@ -359,6 +359,26 @@ async function openSearch(lang, query){
   }catch(e){ return null; }
 }
 
+// Wikimedia Commons file search (no key, no card)
+async function commonsImage(query){
+  try{
+    const sr = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srnamespace=6&srlimit=5&format=json&origin=*`);
+    if (!sr.ok) return null;
+    const sj = await sr.json();
+    const hits = (sj.query && sj.query.search) || [];
+    // skip non-image extensions
+    const file = hits.find(h => /\.(jpe?g|png|webp)$/i.test(h.title));
+    if (!file) return null;
+    const ir = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(file.title)}&prop=imageinfo&iiprop=url&iiurlwidth=1200&format=json&origin=*`);
+    if (!ir.ok) return null;
+    const ij = await ir.json();
+    const pages = ij.query && ij.query.pages || {};
+    const k = Object.keys(pages)[0];
+    const info = pages[k] && pages[k].imageinfo && pages[k].imageinfo[0];
+    return info ? (info.thumburl || info.url) : null;
+  }catch(e){ return null; }
+}
+
 async function wikiImage(title){
   if (imgCache.has(title)) return imgCache.get(title);
   if (CURATED[title]){ imgCache.set(title, CURATED[title]); return CURATED[title]; }
@@ -377,6 +397,10 @@ async function wikiImage(title){
       if (src){ imgCache.set(title, src); return src; }
     }
   }
+  // 3) Wikimedia Commons file search (broader, catches small spots)
+  const src = await commonsImage(q);
+  if (src){ imgCache.set(title, src); return src; }
+
   imgCache.set(title, null);
   return null;
 }
