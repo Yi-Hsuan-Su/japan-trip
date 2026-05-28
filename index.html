@@ -606,6 +606,31 @@ async function paintDayImages(){
   document.querySelectorAll('.day-card').forEach(setupCarousel);
 }
 
+// 餐廳名 → 英文關鍵字（沒訂位網址時 fallback 用）
+const HINT_QUERY = {
+  '焼肉弘 四条木屋町店':'yakiniku wagyu kyoto',
+  '松籟庵':'yudofu tofu kyoto arashiyama',
+  'はり重 道頓堀本店':'sukiyaki wagyu osaka dotonbori',
+  '居酒屋とよ（京橋）':'izakaya tachinomi osaka',
+  '黑門市場（三平/魚福/黒銀）':'kuromon market osaka seafood',
+  '串カツだるま 道頓堀':'kushikatsu osaka dotonbori',
+  '木曽路 上本町店':'sukiyaki wagyu osaka',
+  '露庵 菊乃井':'kaiseki kyoto michelin',
+  '菊乃井 本店':'kaiseki kyoto michelin',
+  '廣川 鰻魚飯':'unagi eel rice kyoto',
+  '牛兵衛 草庵 嵐山店':'shabu shabu wagyu kyoto',
+  '瓢亭':'kaiseki kyoto morning michelin',
+  '祇園 さゝ木':'kaiseki gion kyoto michelin',
+  '鮨三心(大阪)':'sushi omakase osaka',
+  '(大阪) 鮨三心':'sushi omakase osaka',
+  '鐵板燒 嘉門(大阪)':'teppanyaki wagyu osaka',
+  '(大阪) 鐵板燒 嘉門':'teppanyaki wagyu osaka',
+  '北むら':'sukiyaki wagyu osaka kitashinchi',
+  // 飯店
+  '京都 URBAN HOTEL':'kyoto boutique hotel',
+  '大阪喜來登都飯店':'sheraton miyako osaka hotel',
+};
+
 // Convert MD tables to image cards (for /restaurants /lodging /booking)
 async function tablesToCards(root, queryHint){
   const tables = [...root.querySelectorAll('table')];
@@ -632,8 +657,9 @@ async function tablesToCards(root, queryHint){
         return `<li><span class="lbl">${head[i+1]||''}</span><span class="val">${html}</span></li>`;
       }).filter(Boolean).join('');
       const card = document.createElement('article'); card.className = 'rcard';
+      const hintQ = HINT_QUERY[nameText] || `${nameText} ${queryHint||''}`.trim();
       card.innerHTML = `
-        <div class="rcard-img" data-query="${nameText.replace(/"/g,'&quot;')} ${queryHint||''}" data-book="${(bookLink?bookLink.href:'').replace(/"/g,'&quot;')}"></div>
+        <div class="rcard-img" data-query="${hintQ.replace(/"/g,'&quot;')}" data-book="${(bookLink?bookLink.href:'').replace(/"/g,'&quot;')}"></div>
         <div class="rcard-body">
           <h4 class="rcard-name">${nameText}</h4>
           ${detailHtml ? `<ul class="rcard-details">${detailHtml}</ul>` : ''}
