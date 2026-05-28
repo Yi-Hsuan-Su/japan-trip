@@ -217,6 +217,25 @@ section.page .head .rule{display:inline-block;width:48px;height:1px;background:v
 .md tbody tr:hover{background:var(--washi)}
 .md tbody td strong{color:var(--ink)}
 
+/* ───── Restaurant / Lodging Cards ───── */
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin:24px 0}
+.rcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-1);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.rcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-2)}
+.rcard-img{height:180px;background:var(--washi-deep) center/cover;border-bottom:1px solid var(--line)}
+.rcard-body{padding:16px 18px;flex:1;display:flex;flex-direction:column}
+.rcard-name{font-family:var(--serif);font-size:17px;margin:0 0 10px;color:var(--ink);letter-spacing:.02em;line-height:1.3}
+.rcard-details{list-style:none;padding:0;margin:0 0 14px;font-size:13px;color:var(--ink-soft)}
+.rcard-details li{padding:5px 0;display:flex;gap:8px;align-items:flex-start;border-bottom:1px dashed var(--line-soft)}
+.rcard-details li:last-child{border-bottom:none}
+.rcard-details .lbl{flex-shrink:0;color:var(--ink-mute);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;min-width:54px;padding-top:3px}
+.rcard-details .val{flex:1;min-width:0;line-height:1.5}
+.rcard-details .val a{font-size:13px}
+.rcard-actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
+.rcard-btn{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;padding:6px 12px;background:var(--washi-deep);color:var(--ink-soft)!important;border-radius:999px;background-image:none!important;text-decoration:none;cursor:pointer;border:1px solid var(--line);transition:all .2s}
+.rcard-btn:hover{background:var(--shu);color:#fff!important;border-color:var(--shu)}
+.rcard-btn.book{background:var(--shu);color:#fff!important;border-color:var(--shu)}
+.rcard-btn.book:hover{background:var(--shu-deep);border-color:var(--shu-deep)}
+
 /* ───── Callouts (reused in md) ───── */
 .callout{margin:20px 0;padding:14px 18px 14px 18px;border-radius:var(--radius);border:1px solid;display:grid;grid-template-columns:24px 1fr;gap:14px;align-items:flex-start}
 .callout .ico{width:22px;height:22px;flex-shrink:0;margin-top:2px}
@@ -288,8 +307,8 @@ const DAYS = [
     tagline:'落地 KIX，三十三間堂的千手觀音迎接，新京極點燈逛街，相撲火鍋暖身。',
     heroWiki:'Sanjūsangen-dō',
     attractions:[
-      { name:'三十三間堂', wiki:'Sanjūsangen-dō' },
-      { name:'新京極商店街', wiki:'Shinkyōgoku' },
+      { name:'三十三間堂', wiki:'Sanjūsangen-dō', query:'sanjusangendo temple kyoto thousand statues' },
+      { name:'新京極商店街', wiki:'Shinkyōgoku', query:'kyoto shopping arcade covered street night' },
     ],
     meal:{ 午:'機上簡餐', 晚:'相撲火鍋（含）' },
     hotel:'京都 URBAN HOTEL',
@@ -297,12 +316,12 @@ const DAYS = [
   {
     n:2, date:'10/29（四）', title:'嵐山深度 ・ 京都自由日',
     tagline:'重點日 — 嵯峨野小火車＋保津川遊船賞峽谷紅葉，渡月橋、竹林、天龍寺，溫泉日歸貸切，焼肉弘預約名店。',
-    heroWiki:'Arashiyama',
+    heroWiki:'Arashiyama', heroQuery:'arashiyama bamboo forest kyoto autumn',
     attractions:[
-      { name:'嵯峨野觀光小火車', wiki:'Sagano_Scenic_Railway' },
-      { name:'保津川遊船', wiki:'Hozugawa_River' },
-      { name:'渡月橋・竹林', wiki:'Togetsukyō_Bridge' },
-      { name:'天龍寺', wiki:'Tenryū-ji' },
+      { name:'嵯峨野觀光小火車', wiki:'Sagano_Scenic_Railway', query:'sagano romantic train autumn maple' },
+      { name:'保津川遊船', wiki:'Hozugawa_River', query:'hozugawa river boat kyoto autumn canyon' },
+      { name:'渡月橋・竹林', wiki:'Togetsukyō_Bridge', query:'togetsukyo bridge arashiyama autumn' },
+      { name:'天龍寺', wiki:'Tenryū-ji', query:'tenryuji temple zen garden arashiyama' },
     ],
     star:true,
     meal:{ 午:'松籟庵 湯豆腐 ／ 廣川鰻魚 ／ 牛兵衛和牛涮涮', 晚:'★ 焼肉弘 京都和牛' },
@@ -312,11 +331,11 @@ const DAYS = [
   {
     n:3, date:'10/30（五）', title:'清水寺 ・ 移動大阪',
     tagline:'東山清水寺＋勝尾寺達摩賞楓，午餐順正湯豆腐，傍晚進駐大阪喜來登。',
-    heroWiki:'Kiyomizu-dera',
+    heroWiki:'Kiyomizu-dera', heroQuery:'kiyomizu dera kyoto autumn maple',
     attractions:[
-      { name:'清水寺', wiki:'Kiyomizu-dera' },
-      { name:'達摩 勝尾寺', wiki:'Katsuō-ji' },
-      { name:'道頓堀（夜逛）', wiki:'Dōtonbori' },
+      { name:'清水寺', wiki:'Kiyomizu-dera', query:'kiyomizu dera kyoto pagoda autumn' },
+      { name:'達摩 勝尾寺', wiki:'Katsuō-ji', query:'katsuoji daruma dolls red autumn osaka' },
+      { name:'道頓堀（夜逛）', wiki:'Dōtonbori', query:'dotonbori osaka neon night glico' },
     ],
     meal:{ 午:'順正 湯豆腐會席（含）', 晚:'★ はり重 道頓堀 関西風壽喜燒 ／ 木曽路 上本町（免預約）' },
     hotel:'大阪喜來登都飯店',
@@ -324,10 +343,10 @@ const DAYS = [
   {
     n:4, date:'10/31（六）', title:'環球影城 ・ 萬聖節',
     tagline:'USJ 全日 — 任天堂、哈利波特、小小兵、Halloween Horror Night。快通 4 必買。',
-    heroWiki:'Universal_Studios_Japan',
+    heroWiki:'Universal_Studios_Japan', heroQuery:'universal studios japan hogwarts castle',
     attractions:[
-      { name:'環球影城 USJ', wiki:'Universal_Studios_Japan' },
-      { name:'道頓堀 宵夜', wiki:'Dōtonbori' },
+      { name:'環球影城 USJ', wiki:'Universal_Studios_Japan', query:'universal studios japan hogwarts castle ride' },
+      { name:'道頓堀 宵夜', wiki:'Dōtonbori', query:'dotonbori osaka takoyaki neon street food night' },
     ],
     warn:true,
     meal:{ 午:'園內', 晚:'道頓堀 串カツだるま ／ 金龍 ／ 一蘭' },
@@ -337,9 +356,9 @@ const DAYS = [
   {
     n:5, date:'11/01（日）', title:'返程',
     tagline:'JX821 12:20 早班機回 — 行李前一晚打包，預留 KIX 報到時間。',
-    heroWiki:'Kansai_International_Airport',
+    heroWiki:'Kansai_International_Airport', heroQuery:'kansai airport osaka travel sunrise',
     attractions:[
-      { name:'關西機場 KIX', wiki:'Kansai_International_Airport' },
+      { name:'關西機場 KIX', wiki:'Kansai_International_Airport', query:'kansai international airport osaka terminal' },
     ],
     meal:{ 午:'機上簡餐' },
     hotel:'— 返台 —',
@@ -540,7 +559,8 @@ function renderHero(){
 async function paintHeroBg(){
   const el = document.getElementById('hero-bg');
   if (!el) return;
-  const src = await wikiImage(HERO_WIKI);
+  let src = await pexelsImage('kyoto autumn maple temple');
+  if (!src) src = await wikiImage(HERO_WIKI);
   if (src){ el.style.backgroundImage = `url(${src})`; el.classList.add('loaded'); }
 }
 
@@ -549,7 +569,7 @@ function dayCardHtml(d){
   const meals = Object.entries(d.meal||{}).map(([k,v])=>`<div class="item"><span class="label">${k}</span><span class="val">${v}</span></div>`).join('');
   const activity = d.activity ? `<div class="item"><span class="label">活動</span><span class="val"><span class="hi">${d.activity}</span></span></div>` : '';
   const hotel = `<div class="item"><span class="label">住宿</span><span class="val">${d.hotel}</span></div>`;
-  const slides = d.attractions.map((a,i)=>`<div class="slide${i===0?' active':''}" data-wiki="${a.wiki}" data-cap="${a.name}"></div>`).join('');
+  const slides = d.attractions.map((a,i)=>`<div class="slide${i===0?' active':''}" data-wiki="${a.wiki}" data-query="${(a.query||'').replace(/"/g,'&quot;')}" data-cap="${a.name}"></div>`).join('');
   const dots = d.attractions.length>1 ? `<div class="dots">${d.attractions.map((_,i)=>`<button class="dot${i===0?' active':''}" data-i="${i}" aria-label="圖片 ${i+1}"></button>`).join('')}</div>` : '';
   return `
     <article class="day-card" data-day="${d.n}">
@@ -575,11 +595,63 @@ async function paintDayImages(){
   const slides = [...document.querySelectorAll('.day-card .gallery .slide[data-wiki]')];
   await Promise.all(slides.map(async el=>{
     const t = el.dataset.wiki;
-    if (!t) return;
-    const src = await wikiImage(t);
+    const q = el.dataset.query;
+    let src = null;
+    if (q) src = await pexelsImage(q);          // 用 query 直接 Pexels 拿
+    if (!src && t) src = await wikiImage(t);    // fallback 走完整 chain
     if (src) el.style.backgroundImage = `url(${src})`;
   }));
   document.querySelectorAll('.day-card').forEach(setupCarousel);
+}
+
+// Convert MD tables to image cards (for /restaurants /lodging /booking)
+async function tablesToCards(root, queryHint){
+  const tables = [...root.querySelectorAll('table')];
+  for (const table of tables){
+    const head = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+    const rows = [...table.querySelectorAll('tbody tr')];
+    if (!rows.length || head.length < 2) continue;
+    const grid = document.createElement('div'); grid.className = 'rcards';
+    rows.forEach(row => {
+      const cells = [...row.querySelectorAll('td')];
+      if (!cells.length) return;
+      const nameCell = cells[0];
+      const nameLink = nameCell.querySelector('a');
+      const nameText = (nameLink ? nameLink.textContent : nameCell.textContent).trim().replace(/^[\s\W]+|[\s\W]+$/g,'').trim();
+      const nameHref = nameLink ? nameLink.getAttribute('href') : '';
+      const links = [];
+      cells.forEach(c => c.querySelectorAll('a').forEach(a => links.push({ text:a.textContent.trim(), href:a.getAttribute('href')||'' })));
+      const mapLink  = links.find(l => /maps?\.google|google\.com\/maps/.test(l.href));
+      const bookLink = links.find(l => l.href && !/maps?\.google|google\.com\/maps/.test(l.href) && /^https?:/.test(l.href) && l.href !== nameHref);
+      const detailHtml = cells.slice(1).map((c, i) => {
+        let html = c.innerHTML.trim();
+        html = html.replace(/<a[^>]*>\s*(?:📍|🔗)[^<]*<\/a>/g,'').trim();
+        if (!html || html === '—') return '';
+        return `<li><span class="lbl">${head[i+1]||''}</span><span class="val">${html}</span></li>`;
+      }).filter(Boolean).join('');
+      const card = document.createElement('article'); card.className = 'rcard';
+      card.innerHTML = `
+        <div class="rcard-img" data-query="${nameText.replace(/"/g,'&quot;')} ${queryHint||''}"></div>
+        <div class="rcard-body">
+          <h4 class="rcard-name">${nameText}</h4>
+          ${detailHtml ? `<ul class="rcard-details">${detailHtml}</ul>` : ''}
+          <div class="rcard-actions">
+            ${mapLink ? `<a class="rcard-btn map" href="${mapLink.href}" target="_blank" rel="noopener">📍 地圖</a>` : ''}
+            ${bookLink ? `<a class="rcard-btn book" href="${bookLink.href}" target="_blank" rel="noopener">🎟 ${bookLink.text||'訂位'}</a>` : ''}
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    const parent = table.parentElement.classList.contains('table-wrap') ? table.parentElement : table;
+    parent.parentNode.replaceChild(grid, parent);
+  }
+  const imgs = [...root.querySelectorAll('.rcard-img[data-query]')];
+  await Promise.all(imgs.map(async el => {
+    const q = el.dataset.query;
+    if (!q) return;
+    const src = await pexelsImage(q);
+    if (src) el.style.backgroundImage = `url(${src})`;
+  }));
 }
 
 function setupCarousel(card){
@@ -668,6 +740,10 @@ async function navigate(){
       paintDayImages();
     } else {
       wrapTables(view);
+      // Restaurant / Lodging / Booking pages: 表格轉圖片卡片
+      if (hash === '/restaurants') await tablesToCards(view, 'japan food');
+      else if (hash === '/lodging') await tablesToCards(view, 'japan hotel');
+      else if (hash === '/booking') await tablesToCards(view, 'japan travel');
     }
     window.scrollTo({top:0,behavior:'instant'});
   }catch(err){
