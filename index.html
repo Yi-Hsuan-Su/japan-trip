@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#9C2A2A">
+<title>京都・大阪 ｜ 5 Day Travel Notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────── Tokens ─────────── */
+:root{
+  /* color: washi paper + sumi ink + shu vermillion */
+  --washi:        #FAF7F2;
+  --washi-deep:   #F2EBDD;
+  --paper:        #FFFFFF;
+  --ink:          #1A1A1A;
+  --ink-soft:     #3B3735;
+  --ink-mute:     #7A7269;
+  --line:         #E8DFD3;
+  --line-soft:    #F0E8DA;
+  --shu:          #9C2A2A;       /* 朱 vermillion */
+  --shu-deep:     #7A1F1F;
+  --kincha:       #C9A66B;       /* 金茶 gold-tea */
+  --matcha:       #6B7F4C;
+  /* callouts */
+  --info-fg:#2D5F8F; --info-bg:#EBF1F8; --info-bd:#C8DBEB;
+  --warn-fg:#A06318; --warn-bg:#FBEFD9; --warn-bd:#EFD9A3;
+  --ok-fg:#3D7A5C;   --ok-bg:#E5F0E8;   --ok-bd:#C1DCC9;
+  --danger-fg:#9C2A2A;--danger-bg:#F5DEDE;--danger-bd:#E4B8B8;
+
+  --shadow-1: 0 1px 2px rgba(26,26,26,.04), 0 4px 12px rgba(26,26,26,.04);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --serif: 'Noto Serif JP', 'Noto Serif TC', Georgia, serif;
+  --sans: 'Noto Sans TC', 'Hiragino Sans', 'PingFang TC', -apple-system, sans-serif;
+  --display: 'Playfair Display', 'Noto Serif JP', serif;
+}
+
+/* ─────────── Reset ─────────── */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+body{
+  margin:0; background:var(--washi); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.75;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+
+/* ─────────── Hero ─────────── */
+.hero{
+  position:relative; padding:72px 24px 56px; text-align:center;
+  background:
+    radial-gradient(ellipse at top, #FFFFFF 0%, transparent 70%),
+    var(--washi-deep);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero::before{
+  /* faint hinomaru disc, washi-style */
+  content:""; position:absolute; top:-80px; right:-40px;
+  width:240px; height:240px; border-radius:50%;
+  background:radial-gradient(circle, rgba(156,42,42,.10) 0%, rgba(156,42,42,0) 70%);
+  pointer-events:none;
+}
+.hero .eyebrow{
+  font-family:var(--display); font-style:italic; font-size:14px; letter-spacing:.18em;
+  color:var(--shu); margin:0 0 12px; text-transform:uppercase;
+}
+.hero h1.title{
+  font-family:var(--serif); font-weight:600; letter-spacing:.04em;
+  font-size:clamp(32px, 5vw, 52px); margin:0 0 8px; line-height:1.15;
+  color:var(--ink);
+}
+.hero h1.title .jp{display:block; font-size:.6em; font-weight:500; letter-spacing:.3em; color:var(--ink-mute); margin-top:8px}
+.hero .dates{
+  font-family:var(--display); font-size:18px; color:var(--ink-soft); margin:14px 0 0;
+  letter-spacing:.06em;
+}
+.hero .rule{
+  display:inline-block; width:60px; height:1px; background:var(--shu);
+  margin:18px 0;
+}
+.hero .meta{
+  display:flex; flex-wrap:wrap; gap:8px 16px; justify-content:center; font-size:13px;
+  color:var(--ink-soft); margin-top:8px;
+}
+.hero .meta span{display:inline-flex; align-items:center; gap:6px}
+.hero .meta span::before{
+  content:""; width:4px; height:4px; border-radius:50%; background:var(--kincha);
+}
+
+/* ─────────── Layout ─────────── */
+.shell{
+  max-width:1180px; margin:0 auto;
+  display:grid; grid-template-columns: 240px minmax(0,1fr);
+  gap:48px; padding:48px 24px;
+}
+@media (max-width: 900px){
+  .shell{grid-template-columns:1fr; gap:24px; padding:24px 16px}
+  aside.toc{position:static!important; max-height:none; order:2}
+  main{order:1}
+}
+
+/* ─────────── TOC ─────────── */
+aside.toc{
+  position:sticky; top:24px; align-self:start;
+  max-height:calc(100vh - 48px); overflow-y:auto;
+  padding:20px 18px; background:var(--paper);
+  border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow-1);
+  font-size:13.5px;
+}
+aside.toc h3{
+  margin:0 0 14px; font-family:var(--display); font-style:italic;
+  color:var(--shu); font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  padding-bottom:10px; border-bottom:1px solid var(--line-soft);
+  font-weight:500;
+}
+aside.toc ol{list-style:none; padding:0; margin:0; counter-reset:toc}
+aside.toc li{counter-increment:toc; margin:2px 0}
+aside.toc a{
+  display:block; padding:6px 8px 6px 28px; position:relative;
+  color:var(--ink-soft); border-radius:var(--radius-sm);
+  text-decoration:none; line-height:1.4;
+  transition: background .2s ease, color .2s ease;
+  cursor:pointer;
+}
+aside.toc a::before{
+  content: counter(toc, decimal-leading-zero);
+  position:absolute; left:6px; top:6px;
+  font-family:var(--display); font-style:italic; font-size:11px;
+  color:var(--kincha); letter-spacing:.05em;
+}
+aside.toc a:hover{background:var(--washi); color:var(--shu)}
+aside.toc a:focus-visible{outline:2px solid var(--shu); outline-offset:2px}
+aside.toc a.active{background:var(--washi-deep); color:var(--shu); font-weight:500}
+
+/* ─────────── Main / Article ─────────── */
+main{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-1);
+  padding:56px 64px; min-width:0;
+}
+@media (max-width: 720px){ main{padding:32px 22px} }
+
+main > *:first-child{margin-top:0}
+main p{margin:1em 0; color:var(--ink-soft)}
+
+/* drop cap on first paragraph after H1 */
+main h1 + p::first-letter{
+  font-family:var(--serif); font-weight:700; font-size:3.6em; float:left;
+  line-height:.9; padding:6px 12px 0 0; color:var(--shu);
+}
+
+/* Headings */
+main h1{
+  font-family:var(--serif); font-weight:600; font-size:32px;
+  margin:0 0 24px; padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  letter-spacing:.02em;
+}
+main h2{
+  font-family:var(--serif); font-weight:600; font-size:24px;
+  margin:48px 0 18px; padding-left:18px; position:relative;
+  letter-spacing:.02em; line-height:1.35;
+  scroll-margin-top:24px;
+}
+main h2::before{
+  content:""; position:absolute; left:0; top:.35em; bottom:.35em;
+  width:3px; background:var(--shu); border-radius:2px;
+}
+main h3{
+  font-family:var(--serif); font-weight:500; font-size:18px;
+  margin:32px 0 12px; color:var(--shu-deep);
+  letter-spacing:.02em;
+}
+main h2 + p, main h3 + p{margin-top:.5em}
+
+/* Lists */
+main ul, main ol{padding-left:20px; margin:1em 0}
+main li{margin:6px 0; color:var(--ink-soft)}
+main ul li::marker{color:var(--kincha)}
+main ol li::marker{color:var(--shu); font-family:var(--display)}
+
+/* Strong / em */
+main strong{color:var(--ink); font-weight:600}
+main em{color:var(--shu-deep)}
+
+/* Links */
+main a{
+  color:var(--shu); text-decoration:none;
+  background-image: linear-gradient(var(--shu),var(--shu));
+  background-size: 100% 1px; background-position: 0 100%; background-repeat:no-repeat;
+  transition: background-size .2s ease, color .2s ease;
+  padding:0 1px; cursor:pointer;
+}
+main a:hover{color:var(--shu-deep); background-size:100% 2px}
+main a:focus-visible{outline:2px solid var(--shu); outline-offset:2px; border-radius:2px}
+
+/* Blockquote (used in md > blocks) */
+main blockquote{
+  margin:24px 0; padding:14px 20px;
+  background:var(--washi); border-left:3px solid var(--kincha);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  color:var(--ink-soft); font-style:italic; font-size:15px;
+}
+main blockquote p{margin:.3em 0; color:var(--ink-soft)}
+
+/* HR */
+main hr{
+  border:none; height:1px; background:var(--line);
+  margin:48px auto; max-width:80px;
+  position:relative;
+}
+main hr::after{
+  content:"❋"; display:block; position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%); background:var(--paper); padding:0 12px;
+  color:var(--kincha); font-size:14px;
+}
+
+/* Code */
+main code{
+  background:var(--washi); padding:2px 6px; border-radius:4px;
+  font-size:.88em; color:var(--shu-deep);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+main pre{
+  background:var(--washi); border:1px solid var(--line);
+  border-radius:var(--radius); padding:16px; overflow-x:auto;
+}
+main pre code{background:none; padding:0}
+
+/* Tables */
+.table-wrap{overflow-x:auto; margin:18px 0; border-radius:var(--radius); border:1px solid var(--line)}
+main table{
+  width:100%; border-collapse:collapse; font-size:14px;
+  background:var(--paper);
+}
+main thead th{
+  background:var(--washi-deep);
+  font-family:var(--serif); font-weight:600; color:var(--ink);
+  text-align:left; padding:12px 14px;
+  border-bottom:2px solid var(--shu); letter-spacing:.02em;
+  font-size:13px;
+}
+main tbody td{
+  padding:12px 14px; border-bottom:1px solid var(--line-soft);
+  vertical-align:top; color:var(--ink-soft);
+}
+main tbody tr:last-child td{border-bottom:none}
+main tbody tr:nth-child(even){background:#FCFAF6}
+main tbody tr:hover{background:var(--washi)}
+main tbody td strong{color:var(--ink)}
+main tbody td a{font-size:.95em}
+
+/* ─────────── Callouts ─────────── */
+.callout{
+  margin:22px 0; padding:16px 18px 16px 20px;
+  border-radius:var(--radius); border:1px solid;
+  display:grid; grid-template-columns:24px 1fr; gap:14px; align-items:flex-start;
+}
+.callout .ico{width:22px; height:22px; flex-shrink:0; margin-top:2px}
+.callout .body{min-width:0}
+.callout .body > *:first-child{margin-top:0}
+.callout .body > *:last-child{margin-bottom:0}
+.callout p, .callout li{color:inherit}
+.callout strong{color:inherit; font-weight:700}
+.callout.info   {background:var(--info-bg);   border-color:var(--info-bd);   color:var(--info-fg)}
+.callout.warning{background:var(--warn-bg);   border-color:var(--warn-bd);   color:var(--warn-fg)}
+.callout.success{background:var(--ok-bg);     border-color:var(--ok-bd);     color:var(--ok-fg)}
+.callout.danger {background:var(--danger-bg); border-color:var(--danger-bd); color:var(--danger-fg)}
+
+/* ─────────── Footer ─────────── */
+footer.site{
+  text-align:center; color:var(--ink-mute); font-size:12px;
+  padding:24px 16px 48px; letter-spacing:.05em;
+}
+footer.site .seal{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border:1.5px solid var(--shu);
+  color:var(--shu); border-radius:50%; margin-bottom:10px;
+  font-family:var(--serif); font-weight:600; font-size:16px;
+}
+
+/* ─────────── Loading ─────────── */
+.loading{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:80px 0; color:var(--ink-mute);
+}
+.loading .spin{
+  width:28px; height:28px; border:2px solid var(--line);
+  border-top-color:var(--shu); border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){
+  .loading .spin{animation:none}
+}
+
+/* selection */
+::selection{background:rgba(156,42,42,.15); color:var(--shu-deep)}
+</style>
+</head>
+<body>
+
+<!-- ───────────────────── SVG sprite ───────────────────── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r=".5" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+  </symbol>
+</svg>
+
+<!-- ───────────────────── Hero ───────────────────── -->
+<header class="hero">
+  <p class="eyebrow">— A 5-Day Travel Notebook —</p>
+  <h1 class="title">
+    京都 ・ 大阪
+    <span class="jp">KYOTO ・ OSAKA</span>
+  </h1>
+  <span class="rule" aria-hidden="true"></span>
+  <p class="dates">10.28 — 11.01 ・ 2026</p>
+  <div class="meta">
+    <span>JX820 / JX821</span>
+    <span>京都 URBAN ・ 大阪喜來登都</span>
+    <span>自費 NT$28,000 ／ 2 人</span>
+  </div>
+</header>
+
+<!-- ───────────────────── Layout ───────────────────── -->
+<div class="shell">
+  <aside class="toc" aria-label="目錄">
+    <h3>Contents</h3>
+    <ol id="toc-list"><li><a>載入中…</a></li></ol>
+  </aside>
+  <main id="content">
+    <div class="loading"><div class="spin" aria-hidden="true"></div><div>展開行程中…</div></div>
+  </main>
+</div>
+
+<footer class="site">
+  <div class="seal">京</div>
+  <div>Kyoto ・ Osaka Travel Notebook</div>
+  <div style="opacity:.6;margin-top:4px">資料隨 trip.md 更新</div>
+</footer>
+
+<!-- ───────────────────── Logic ───────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+const SVG_ICONS = {
+  info: '<svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>',
+  warning: '<svg class="ico" aria-hidden="true"><use href="#i-warn"/></svg>',
+  success: '<svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg>',
+  danger: '<svg class="ico" aria-hidden="true"><use href="#i-x"/></svg>'
+};
+
+// pre-process ::: callouts → <div class="callout {type}"><svg/>...content...</div>
+function preprocess(md){
+  md = md.replace(/^\[TOC\]\s*$/m, '');
+  // greedy across multiline
+  md = md.replace(/:::(info|warning|success|danger)\s*\n([\s\S]*?):::/g, (_, type, body) => {
+    const inner = marked.parse(body.trim());
+    return `<div class="callout ${type}">${SVG_ICONS[type]||''}<div class="body">${inner}</div></div>`;
+  });
+  return md;
+}
+
+function slugify(text){
+  return text.toString().trim()
+    .replace(/[​-‍﻿]/g,'')
+    .replace(/[^\p{Letter}\p{Number}]+/gu,'-')
+    .replace(/^-+|-+$/g,'')
+    .toLowerCase().slice(0, 80) || 'section';
+}
+
+// wrap tables for horizontal scroll
+function wrapTables(root){
+  root.querySelectorAll('table').forEach(t => {
+    if (t.parentElement.classList.contains('table-wrap')) return;
+    const w = document.createElement('div'); w.className = 'table-wrap';
+    t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+}
+
+function buildTOC(root){
+  const tocList = document.getElementById('toc-list');
+  tocList.innerHTML = '';
+  const headings = root.querySelectorAll('h2');
+  if (!headings.length){ tocList.innerHTML = '<li><a>—</a></li>'; return; }
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.replace(/^\W+/, '').trim();
+    li.appendChild(a); tocList.appendChild(li);
+  });
+}
+
+// active section highlight on scroll
+function trackScroll(){
+  const links = [...document.querySelectorAll('aside.toc a')];
+  const headings = [...document.querySelectorAll('main h2')];
+  if (!headings.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = e.target.id;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+  headings.forEach(h => io.observe(h));
+}
+
+async function load(){
+  try{
+    const r = await fetch('trip.md?_=' + Date.now());
+    if (!r.ok) throw new Error('fetch ' + r.status);
+    let md = await r.text();
+    md = preprocess(md);
+
+    const renderer = new marked.Renderer();
+    renderer.heading = function(text, level){
+      const id = slugify(text);
+      return `<h${level} id="${id}">${text}</h${level}>`;
+    };
+    marked.setOptions({ gfm:true, breaks:false });
+
+    const html = marked.parse(md, { renderer });
+    const main = document.getElementById('content');
+    main.innerHTML = html;
+    wrapTables(main);
+    buildTOC(main);
+    trackScroll();
+  }catch(err){
+    document.getElementById('content').innerHTML =
+      `<div class="callout danger"><svg class="ico"><use href="#i-x"/></svg><div class="body"><strong>載入失敗</strong><p>${err.message}<br>請確認 <code>trip.md</code> 與 <code>index.html</code> 在同目錄。</p></div></div>`;
+  }
+}
+load();
+</script>
+</body>
+</html>
