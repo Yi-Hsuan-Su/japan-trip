@@ -631,7 +631,7 @@ async function tablesToCards(root, queryHint){
       }).filter(Boolean).join('');
       const card = document.createElement('article'); card.className = 'rcard';
       card.innerHTML = `
-        <div class="rcard-img" data-query="${nameText.replace(/"/g,'&quot;')} ${queryHint||''}"></div>
+        <div class="rcard-img" data-query="${nameText.replace(/"/g,'&quot;')} ${queryHint||''}" data-book="${(bookLink?bookLink.href:'').replace(/"/g,'&quot;')}"></div>
         <div class="rcard-body">
           <h4 class="rcard-name">${nameText}</h4>
           ${detailHtml ? `<ul class="rcard-details">${detailHtml}</ul>` : ''}
@@ -647,11 +647,25 @@ async function tablesToCards(root, queryHint){
   }
   const imgs = [...root.querySelectorAll('.rcard-img[data-query]')];
   await Promise.all(imgs.map(async el => {
-    const q = el.dataset.query;
-    if (!q) return;
-    const src = await pexelsImage(q);
+    const book = el.dataset.book;
+    let src = null;
+    if (book) src = await ogImage(book);    // 1) 從訂位網址抓 og:image (真實照片)
+    if (!src){
+      const q = el.dataset.query;
+      if (q) src = await pexelsImage(q);    // 2) fallback to Pexels
+    }
     if (src) el.style.backgroundImage = `url(${src})`;
   }));
+}
+
+async function ogImage(url){
+  if (!url) return null;
+  try{
+    const r = await fetch(`${PROXY_URL}?token=${PROXY_TOKEN}&action=ogimage&url=${encodeURIComponent(url)}`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return (j && j.ok) ? j.src : null;
+  }catch(e){ return null; }
 }
 
 function setupCarousel(card){
