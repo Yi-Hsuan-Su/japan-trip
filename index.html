@@ -398,11 +398,26 @@ async function wikiImage(title){
     }
   }
   // 3) Wikimedia Commons file search (broader, catches small spots)
-  const src = await commonsImage(q);
+  let src = await commonsImage(q);
+  if (src){ imgCache.set(title, src); return src; }
+
+  // 4) Openverse — aggregates Wikimedia+Flickr CC+millions, no key
+  src = await openverseImage(q);
   if (src){ imgCache.set(title, src); return src; }
 
   imgCache.set(title, null);
   return null;
+}
+
+// Openverse public CC image aggregator (no auth)
+async function openverseImage(query){
+  try{
+    const r = await fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(query)}&page_size=5&license_type=all`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    const hit = (j.results || []).find(x => x && (x.url || x.thumbnail));
+    return hit ? (hit.url || hit.thumbnail) : null;
+  }catch(e){ return null; }
 }
 
 /* ─────────── trip.md cache + section split ─────────── */
