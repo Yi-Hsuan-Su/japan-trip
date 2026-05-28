@@ -111,7 +111,7 @@
 
 | 餐廳 | 地點/類型 | 訂位方式 | 訂位連結 |
 |------|----------|---------|---------|
-| [焼肉弘 四条木屋町店](https://www.google.com/maps/search/?api=1&query=京の焼肉処+弘+四条木屋町店) | 京都・和牛燒肉 | 電話/食べログ（中文菜單）建議預約 | [🔗食べログ](https://tabelog.com/kyoto/A2601/A260203/26010175/) |
+| [焼肉弘 四条木屋町店](https://www.google.com/maps/search/?api=1&query=京の焼肉処+弘+四条木屋町店) | 京都・和牛燒肉 | 電話/食べログ（中文菜單）建議預約 | [🔗官網](https://yakiniku-hiro.com/) |
 | [松籟庵](https://www.google.com/maps/search/?api=1&query=松籟庵+嵐山) | 嵐山・湯豆腐懷石 | 電話/官網 | [🔗官網](https://shoraian.jp/) |
 | [はり重 道頓堀本店](https://www.google.com/maps/search/?api=1&query=はり重+道頓堀本店) | 大阪道頓堀・関西風壽喜燒（百年老舖） | 中文線上預約（My Concierge / Klook）建議 | [🔗中文預約](https://myconciergejapan.com/zh-hant/restaurants/hariju-dotonbori-honten/) |
 | [黑門市場（三平/魚福/黒銀）](https://www.google.com/maps/search/?api=1&query=黒門市場+大阪) | 大阪・海鮮市場（早~17:00） | 現場 | — |
