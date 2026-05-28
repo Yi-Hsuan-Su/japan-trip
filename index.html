@@ -331,20 +331,51 @@ const DAYS = [
 
 const HERO_WIKI = 'Kiyomizu-dera';
 
-/* ─────────── Wikipedia image cache ─────────── */
+/* ─────────── Wikipedia image cache (multi-strategy) ─────────── */
 const imgCache = new Map();
+const LANGS = ['en','ja','zh'];
+
+// Hand-curated fallback for spots/restaurants Wikipedia 沒有
+const CURATED = {
+  // 'Wiki_key': 'https://upload.wikimedia.org/wikipedia/commons/...'
+};
+
+async function summaryDirect(lang, title){
+  try{
+    const r = await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return (j.originalimage && j.originalimage.source) || (j.thumbnail && j.thumbnail.source) || null;
+  }catch(e){ return null; }
+}
+
+async function openSearch(lang, query){
+  try{
+    const url = `https://${lang}.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=1&namespace=0&format=json&origin=*`;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return (j[1] && j[1][0]) || null; // top article title
+  }catch(e){ return null; }
+}
+
 async function wikiImage(title){
   if (imgCache.has(title)) return imgCache.get(title);
-  const langs = ['en','ja','zh'];
-  for (const lang of langs){
-    try{
-      const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-      const r = await fetch(url);
-      if (!r.ok) continue;
-      const j = await r.json();
-      const src = (j.originalimage && j.originalimage.source) || (j.thumbnail && j.thumbnail.source);
+  if (CURATED[title]){ imgCache.set(title, CURATED[title]); return CURATED[title]; }
+
+  // 1) direct summary across langs
+  for (const lang of LANGS){
+    const src = await summaryDirect(lang, title);
+    if (src){ imgCache.set(title, src); return src; }
+  }
+  // 2) opensearch fallback (use spaces from underscores)
+  const q = title.replace(/_/g,' ');
+  for (const lang of LANGS){
+    const found = await openSearch(lang, q);
+    if (found){
+      const src = await summaryDirect(lang, found.replace(/ /g,'_'));
       if (src){ imgCache.set(title, src); return src; }
-    }catch(e){ /* try next */ }
+    }
   }
   imgCache.set(title, null);
   return null;
