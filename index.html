@@ -401,12 +401,31 @@ async function wikiImage(title){
   let src = await commonsImage(q);
   if (src){ imgCache.set(title, src); return src; }
 
-  // 4) Openverse — aggregates Wikimedia+Flickr CC+millions, no key
+  // 4) Pexels — travel/food aesthetics (free key)
+  src = await pexelsImage(q);
+  if (src){ imgCache.set(title, src); return src; }
+
+  // 5) Openverse — aggregates Wikimedia+Flickr CC+millions, no key
   src = await openverseImage(q);
   if (src){ imgCache.set(title, src); return src; }
 
   imgCache.set(title, null);
   return null;
+}
+
+// Pexels (free key, no card) — best for travel/food aesthetics
+const PEXELS_KEY = 'WwQclMGpH9dDSSADwnY9FxACiOOUN9LX2xuRjBCzN9uy1azHynJmWzdV';
+async function pexelsImage(query){
+  if (!PEXELS_KEY) return null;
+  try{
+    const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=3&orientation=landscape`,{
+      headers:{ Authorization: PEXELS_KEY }
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const p = (j.photos || [])[0];
+    return p && p.src ? (p.src.large2x || p.src.large || p.src.medium) : null;
+  }catch(e){ return null; }
 }
 
 // Openverse public CC image aggregator (no auth)
