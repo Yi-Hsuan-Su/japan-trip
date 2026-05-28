@@ -307,8 +307,8 @@ const DAYS = [
     tagline:'落地 KIX，三十三間堂的千手觀音迎接，新京極點燈逛街，相撲火鍋暖身。',
     heroWiki:'Sanjūsangen-dō',
     attractions:[
-      { name:'三十三間堂', wiki:'Sanjūsangen-dō', query:'sanjusangendo temple kyoto thousand statues' },
-      { name:'新京極商店街', wiki:'Shinkyōgoku', query:'kyoto shopping arcade covered street night' },
+      { name:'三十三間堂', wiki:'Sanjūsangen-dō', query:'sanjusangendo temple kyoto thousand statues', url:'https://www.sanjusangendo.jp/' },
+      { name:'新京極商店街', wiki:'Shinkyōgoku', query:'kyoto shopping arcade covered street night', url:'https://shinkyogoku.kyoto/' },
     ],
     meal:{ 午:'機上簡餐', 晚:'相撲火鍋（含）' },
     hotel:'京都 URBAN HOTEL',
@@ -318,10 +318,10 @@ const DAYS = [
     tagline:'重點日 — 嵯峨野小火車＋保津川遊船賞峽谷紅葉，渡月橋、竹林、天龍寺，溫泉日歸貸切，焼肉弘預約名店。',
     heroWiki:'Arashiyama', heroQuery:'arashiyama bamboo forest kyoto autumn',
     attractions:[
-      { name:'嵯峨野觀光小火車', wiki:'Sagano_Scenic_Railway', query:'sagano romantic train autumn maple' },
-      { name:'保津川遊船', wiki:'Hozugawa_River', query:'hozugawa river boat kyoto autumn canyon' },
-      { name:'渡月橋・竹林', wiki:'Togetsukyō_Bridge', query:'togetsukyo bridge arashiyama autumn' },
-      { name:'天龍寺', wiki:'Tenryū-ji', query:'tenryuji temple zen garden arashiyama' },
+      { name:'嵯峨野觀光小火車', wiki:'Sagano_Scenic_Railway', query:'sagano romantic train autumn maple', url:'https://www.sagano-kanko.co.jp/' },
+      { name:'保津川遊船', wiki:'Hozugawa_River', query:'hozugawa river boat kyoto autumn canyon', url:'https://www.hozugawakudari.jp/' },
+      { name:'渡月橋・竹林', wiki:'Togetsukyō_Bridge', query:'togetsukyo bridge arashiyama autumn', url:'https://www.arashiyama-kyoto.com/' },
+      { name:'天龍寺', wiki:'Tenryū-ji', query:'tenryuji temple zen garden arashiyama', url:'https://www.tenryuji.com/' },
     ],
     star:true,
     meal:{ 午:'松籟庵 湯豆腐 ／ 廣川鰻魚 ／ 牛兵衛和牛涮涮', 晚:'★ 焼肉弘 京都和牛' },
@@ -333,9 +333,9 @@ const DAYS = [
     tagline:'東山清水寺＋勝尾寺達摩賞楓，午餐順正湯豆腐，傍晚進駐大阪喜來登。',
     heroWiki:'Kiyomizu-dera', heroQuery:'kiyomizu dera kyoto autumn maple',
     attractions:[
-      { name:'清水寺', wiki:'Kiyomizu-dera', query:'kiyomizu dera kyoto pagoda autumn' },
-      { name:'達摩 勝尾寺', wiki:'Katsuō-ji', query:'katsuoji daruma dolls red autumn osaka' },
-      { name:'道頓堀（夜逛）', wiki:'Dōtonbori', query:'dotonbori osaka neon night glico' },
+      { name:'清水寺', wiki:'Kiyomizu-dera', query:'kiyomizu dera kyoto pagoda autumn', url:'https://www.kiyomizudera.or.jp/' },
+      { name:'達摩 勝尾寺', wiki:'Katsuō-ji', query:'katsuoji daruma dolls red autumn osaka', url:'https://katsuo-ji-temple.or.jp/' },
+      { name:'道頓堀（夜逛）', wiki:'Dōtonbori', query:'dotonbori osaka neon night glico', url:'https://www.dotonbori.or.jp/' },
     ],
     meal:{ 午:'順正 湯豆腐會席（含）', 晚:'★ はり重 道頓堀 関西風壽喜燒 ／ 木曽路 上本町（免預約）' },
     hotel:'大阪喜來登都飯店',
@@ -345,8 +345,8 @@ const DAYS = [
     tagline:'USJ 全日 — 任天堂、哈利波特、小小兵、Halloween Horror Night。快通 4 必買。',
     heroWiki:'Universal_Studios_Japan', heroQuery:'universal studios japan hogwarts castle',
     attractions:[
-      { name:'環球影城 USJ', wiki:'Universal_Studios_Japan', query:'universal studios japan hogwarts castle ride' },
-      { name:'道頓堀 宵夜', wiki:'Dōtonbori', query:'dotonbori osaka takoyaki neon street food night' },
+      { name:'環球影城 USJ', wiki:'Universal_Studios_Japan', query:'universal studios japan hogwarts castle ride', url:'https://www.usj.co.jp/web/zh/tw' },
+      { name:'道頓堀 宵夜', wiki:'Dōtonbori', query:'dotonbori osaka takoyaki neon street food night', url:'https://www.dotonbori.or.jp/' },
     ],
     warn:true,
     meal:{ 午:'園內', 晚:'道頓堀 串カツだるま ／ 金龍 ／ 一蘭' },
@@ -358,7 +358,7 @@ const DAYS = [
     tagline:'JX821 12:20 早班機回 — 行李前一晚打包，預留 KIX 報到時間。',
     heroWiki:'Kansai_International_Airport', heroQuery:'kansai airport osaka travel sunrise',
     attractions:[
-      { name:'關西機場 KIX', wiki:'Kansai_International_Airport', query:'kansai international airport osaka terminal' },
+      { name:'關西機場 KIX', wiki:'Kansai_International_Airport', query:'kansai international airport osaka terminal', url:'https://www.kansai-airport.or.jp/' },
     ],
     meal:{ 午:'機上簡餐' },
     hotel:'— 返台 —',
@@ -569,7 +569,7 @@ function dayCardHtml(d){
   const meals = Object.entries(d.meal||{}).map(([k,v])=>`<div class="item"><span class="label">${k}</span><span class="val">${v}</span></div>`).join('');
   const activity = d.activity ? `<div class="item"><span class="label">活動</span><span class="val"><span class="hi">${d.activity}</span></span></div>` : '';
   const hotel = `<div class="item"><span class="label">住宿</span><span class="val">${d.hotel}</span></div>`;
-  const slides = d.attractions.map((a,i)=>`<div class="slide${i===0?' active':''}" data-wiki="${a.wiki}" data-query="${(a.query||'').replace(/"/g,'&quot;')}" data-cap="${a.name}"></div>`).join('');
+  const slides = d.attractions.map((a,i)=>`<div class="slide${i===0?' active':''}" data-wiki="${a.wiki}" data-query="${(a.query||'').replace(/"/g,'&quot;')}" data-url="${(a.url||'').replace(/"/g,'&quot;')}" data-cap="${a.name}"></div>`).join('');
   const dots = d.attractions.length>1 ? `<div class="dots">${d.attractions.map((_,i)=>`<button class="dot${i===0?' active':''}" data-i="${i}" aria-label="圖片 ${i+1}"></button>`).join('')}</div>` : '';
   return `
     <article class="day-card" data-day="${d.n}">
@@ -594,11 +594,13 @@ function dayCardHtml(d){
 async function paintDayImages(){
   const slides = [...document.querySelectorAll('.day-card .gallery .slide[data-wiki]')];
   await Promise.all(slides.map(async el=>{
-    const t = el.dataset.wiki;
+    const url = el.dataset.url;
     const q = el.dataset.query;
+    const t = el.dataset.wiki;
     let src = null;
-    if (q) src = await pexelsImage(q);          // 用 query 直接 Pexels 拿
-    if (!src && t) src = await wikiImage(t);    // fallback 走完整 chain
+    if (url) src = await ogImage(url);          // 1) 官網 og:image (真實照片)
+    if (!src && q) src = await pexelsImage(q);  // 2) Pexels query
+    if (!src && t) src = await wikiImage(t);    // 3) Wikipedia chain
     if (src) el.style.backgroundImage = `url(${src})`;
   }));
   document.querySelectorAll('.day-card').forEach(setupCarousel);
